@@ -1,0 +1,46 @@
+// 首先建立工程区-但是要记着提前创建工作区域(但是不需要设置空间基本配置，只创建src就好)
+cd ~/catkin_ws1/src
+
+// 克隆地址，复制进来雷达的库
+git clone https://github.com/Slamtec/rplidar_ros.git
+
+// 回到工作区域
+cd ..
+
+// 对工作区域セットアップ
+source ~/.bashrc
+
+// jetson nano重启
+sudo reboot
+
+// 进行ttyUSB的使用权限赋予(这个就输入就好，如果有什么error，就看网址，在最下面)
+ls /dev | grep ttyUSB
+
+sudo chmod 666 /dev/ttyUSB0
+
+// 进行对launch文件的セットアップ
+roslaunch rplidar_ros view_rplidar.launch
+
+/*
+注意-这里面可能会出现这种错误
+RLException: [view_rplidar.launch] is neither a launch file in package [rplidar_ros] nor is [rplidar_ros] a launch file name
+
+解决方法-
+1，检查好自己工作空间的名字 catkin_ws1
+
+2,之后回到工作空间再一次对launch文件进行セットアップ
+source ~/catkin_ws/devel/setup.bash
+*/
+
+// 这时候就会出现rviz
+
+/*
+我们还可以查看每个坐标的数据
+
+1，查找topic列表
+rostopic list
+
+2，查看坐标
+rostopic echo /scan
+
+https://www.instructables.com/Getting-Started-With-the-Low-cost-RPLIDAR-Using-Je/
